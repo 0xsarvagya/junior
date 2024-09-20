@@ -5,10 +5,13 @@ import { useKalpApi } from '@/hooks/useKalpAPI'
 const Home: React.FC = () => {
 
  
-    const { claim, balanceOf, totalSupply, loading } = useKalpApi();
+    const { claim, balanceOf, totalSupply,TransferFrom, loading } = useKalpApi();
     const [walletAddress, setWalletAddress] = useState("");
     const [balance, setBalance] = useState(0);
     const [totalAirdrop, setTotalAirdrop] = useState(0);
+    const [fromto, setfrom] = useState("");
+    const [toto, setTo] = useState("");
+    const [amount, setAmount] = useState<number>(0);
   
     const handleClaim = async () => {
       try {
@@ -27,6 +30,16 @@ const Home: React.FC = () => {
         console.log('Balance:', data);
       } catch (err) {
         console.error('BalanceOf error:', err);
+      }
+    };
+
+    const handleTransferFrom = async () => {
+      try {
+        const data = await TransferFrom(fromto ,toto ,amount);
+        await handleTotalSupply();
+        console.log('Claim successful:', data);
+      } catch (err) {
+        console.error('Claim error:', err);
       }
     };
   
@@ -65,6 +78,17 @@ const Home: React.FC = () => {
             My Balance :
             <input placeholder='Enter your wallet address' type="text" className='border p-2 rounded-lg w-56 text-black' onChange={(e) => setWalletAddress(e.target.value)} />
             <button className='border-2 p-2 rounded-lg bg-blue-500 hover:bg-blue-400 text-white' onClick={handleBalanceOf}>See</button>
+  
+            <p className='text-2xl font-bold w-56'>Balance: <span className='text-blue-500 text-4xl'> {balance}</span></p>
+          </div>
+
+          <div className='flex flex-col border-2 p-8 mt-8 rounded-lg w-fit gap-3'>
+            Transfer Token :
+            <input placeholder='Enter your Value' type="number" className='border p-2 rounded-lg w-56 text-black' onChange={(e) => setAmount(Number(e.target.value))} />
+            <input placeholder='Enter your From wallet address' type="text" className='border p-2 rounded-lg w-56 text-black' onChange={(e) => setfrom(e.target.value)} />
+            <button className='border-2 p-2 rounded-lg bg-blue-500 hover:bg-blue-400 text-white' onClick={handleTransferFrom}>Transfer To</button>
+            <input placeholder='Enter your to wallet address' type="text" className='border p-2 rounded-lg w-56 text-black' onChange={(e) => setTo(e.target.value)} />
+
   
             <p className='text-2xl font-bold w-56'>Balance: <span className='text-blue-500 text-4xl'> {balance}</span></p>
           </div>

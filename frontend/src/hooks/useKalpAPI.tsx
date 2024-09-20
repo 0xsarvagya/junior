@@ -67,7 +67,21 @@ export const useKalpApi = () => {
     return callApi(endpoint, args);
   };
 
-  return { claim, balanceOf, totalSupply, loading, error };
+  const TransferFrom = async (  from : string, to: string ,value: number) => {
+    const endpoint =
+      'https://gateway-api.kalp.studio/v1/contract/kalp/invoke/hUzLpnf20hnkTAVPVu3jd2FOxRdGqc2k1726837778016/TransferFrom';
+    const args = {
+     
+        from : from,
+        to:    to,
+        value: value
+     
+    };
+    console.log(args)
+    return callApi(endpoint, args);
+  };
+
+  return { claim, balanceOf, totalSupply, TransferFrom, loading, error };
 };
 
 
